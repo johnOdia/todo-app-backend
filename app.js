@@ -1,9 +1,23 @@
 const express = require("express");
-const cors = require('cors');
-const app = express();
+const mongoose = require('mongoose');
+require('dotenv').config();
+const todoRoutesConfig = require('./src/routes/todo_routes');
 
 // MIDLLEWARES
+const app = express();
 app.use(express.json());
-app.use(cors());
 
-app.listen(3001, () => console.log('server started on 3001'));
+// ROUTES
+todoRoutesConfig(app);
+
+const DB = process.env.MONGODB_URI;
+
+mongoose
+  .connect(DB)
+  .then(() => {
+    app.set('port', process.env.PORT || 3000);
+    const server = app.listen(app.get('port'), async () => {
+        console.log(server.address().port);
+      console.log(`Express running → PORT ${server.address().port}`);
+    });
+  });

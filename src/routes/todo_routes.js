@@ -18,4 +18,4 @@ const todoRoutesConfig = (app) => {
     app.post('/create_todo', createTodo);
 }
 
-export default todoRoutesConfig;
+module.exports = todoRoutesConfig;
